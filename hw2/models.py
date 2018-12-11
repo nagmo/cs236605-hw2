@@ -128,15 +128,15 @@ class ConvClassifier(nn.Module):
         return out
 
 
-class YourCodeNet(ConvClassifier):
-    def __init__(self, in_size, out_classes, filters, pool_every, hidden_dims):
-        super().__init__(in_size, out_classes, filters, pool_every, hidden_dims)
+# class YourCodeNet(ConvClassifier):
+#     def __init__(self, in_size, out_classes, filters, pool_every, hidden_dims):
+#         super().__init__(in_size, out_classes, filters, pool_every, hidden_dims)
 
     # TODO: Change whatever you want about the ConvClassifier to try to
     # improve it's results on CIFAR-10.
     # For example, add batchnorm, dropout, skip connections, change conv
     # filter sizes etc.
     # ====== YOUR CODE: ======
-    raise NotImplementedError()
+    # raise NotImplementedError()
     # ========================
 

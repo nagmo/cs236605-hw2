@@ -188,7 +188,13 @@ class BlocksTrainer(Trainer):
         # - Optimize params
         # - Calculate number of correct predictions
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        self.optimizer.zero_grad()
+        dout = self.model.forward(X)
+        loss_dout = self.loss_fn(dout, y)
+        grad = self.model.backward(dout)
+        self.loss_fn.backward(loss_dout)
+        self.optimizer.step()
+        loss, num_correct = self.test_batch(batch)
         # ========================
 
         return BatchResult(loss, num_correct)
@@ -200,7 +206,11 @@ class BlocksTrainer(Trainer):
         # - Forward pass
         # - Calculate number of correct predictions
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        dout = self.model.forward(X)
+        loss = self.loss_fn(dout, y)
+        diff = dout.max(dim=1)[1] - y
+        print(diff, y)
+        num_correct = (diff.numel() - diff.nonzero().size(0))
         # ========================
 
         return BatchResult(loss, num_correct)
