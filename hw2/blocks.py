@@ -232,7 +232,7 @@ class CrossEntropyLoss(Block):
         exps = exps / exps.sum(1, True)
         zeros = torch.zeros_like(exps)
         zeros[range(N), y] = -1
-        dx = (exps + zeros) * dout / N
+        dx = dout * ((exps + zeros) / N)
         # ========================
 
         return dx

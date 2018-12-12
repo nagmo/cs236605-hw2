@@ -72,7 +72,12 @@ class Trainer(abc.ABC):
             # - Optional: Implement early stopping. This is a very useful and
             #   simple regularization technique that is highly recommended.
             # ====== YOUR CODE: ======
-            raise NotImplementedError()
+            train_res = self.train_epoch(dl_train)
+            train_loss.append(train_res.losses)
+            train_acc.append(train_res.accuracy)
+            test_res = self.test_epoch(dl_test)
+            test_loss.append(test_res.losses)
+            test_acc.append(test_res.accuracy)
             # ========================
 
         return FitResult(actual_num_epochs,
@@ -191,8 +196,8 @@ class BlocksTrainer(Trainer):
         self.optimizer.zero_grad()
         dout = self.model.forward(X)
         loss_dout = self.loss_fn(dout, y)
-        grad = self.model.backward(dout)
-        self.loss_fn.backward(loss_dout)
+        loss_grad = self.loss_fn.backward(loss_dout)
+        self.model.backward(loss_grad)
         self.optimizer.step()
         loss, num_correct = self.test_batch(batch)
         # ========================
@@ -209,7 +214,6 @@ class BlocksTrainer(Trainer):
         dout = self.model.forward(X)
         loss = self.loss_fn(dout, y)
         diff = dout.max(dim=1)[1] - y
-        print(diff, y)
         num_correct = (diff.numel() - diff.nonzero().size(0))
         # ========================
 
