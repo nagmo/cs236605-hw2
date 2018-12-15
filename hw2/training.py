@@ -236,7 +236,12 @@ class TorchTrainer(Trainer):
         # - Optimize params
         # - Calculate number of correct predictions
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        scores = self.model(X)
+        loss = self.loss_fn(scores, y)
+        self.optimizer.zero_grad()
+        loss.backward()
+        self.optimizer.step()
+        loss, num_correct = self.test_batch(batch)
         # ========================
 
         return BatchResult(loss, num_correct)
@@ -252,7 +257,10 @@ class TorchTrainer(Trainer):
             # - Forward pass
             # - Calculate number of correct predictions
             # ====== YOUR CODE: ======
-            raise NotImplementedError()
+            dout = self.model.forward(X)
+            loss = self.loss_fn(dout, y)
+            diff = dout.max(dim=1)[1] - y
+            num_correct = (diff.numel() - diff.nonzero().size(0))
             # ========================
 
         return BatchResult(loss, num_correct)

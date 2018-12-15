@@ -102,8 +102,15 @@ class ConvClassifier(nn.Module):
         # Use only dimension-preserving 3x3 convolutions. Apply 2x2 Max
         # Pooling to reduce dimensions.
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
-
+        for pool in range(len(self.filters) // self.pool_every):
+            for conv_layer in range(self.pool_every):
+                if pool == 0 and conv_layer == 0:
+                    layers.append(nn.Conv2d(in_channels, self.filters[0], 3))
+                else:
+                    idx = (pool * self.pool_every) + conv_layer - 1
+                    layers.append(nn.Conv2d(self.filters[idx], self.filters[idx + 1], 3))
+                layers.append(nn.ReLU())
+            layers.append(nn.MaxPool2d(2))
         # ========================
         seq = nn.Sequential(*layers)
         return seq
@@ -117,7 +124,17 @@ class ConvClassifier(nn.Module):
         # You'll need to calculate the number of features first.
         # The last Linear layer should have an output dimension of out_classes.
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        temp_features = (in_h, in_w)
+        for i in range(len(self.filters) // self.pool_every):
+            calc = lambda x: (x - 2 * self.pool_every) // 2
+            temp_features = (calc(temp_features[0]), calc(temp_features[1]))
+        in_features = self.filters[-1] * temp_features[0] * temp_features[1]
+        layers.append(nn.Linear(in_features, self.hidden_dims[0]))
+        for hidden_dim in range(len(self.hidden_dims)-1):
+            layers.append(nn.ReLU())
+            layers.append(nn.Linear(self.hidden_dims[hidden_dim], self.hidden_dims[hidden_dim + 1]))
+        layers.append(nn.ReLU())
+        layers.append(nn.Linear(self.hidden_dims[-1], self.out_classes))
         # ========================
         seq = nn.Sequential(*layers)
         return seq
@@ -127,7 +144,8 @@ class ConvClassifier(nn.Module):
         # Extract features from the input, run the classifier on them and
         # return class scores.
         # ====== YOUR CODE: ======
-        raise NotImplementedError()
+        extractor = self.feature_extractor(x)
+        out = self.classifier(extractor.view(extractor.shape[0], -1))
         # ========================
         return out
 
