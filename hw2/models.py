@@ -39,8 +39,12 @@ class MLP(Block):
         blocks.append(Linear(in_features, hidden_features[0]))
         for i in range(len(hidden_features) - 1):
             blocks.append(ReLU())
+            if self.dropout != 0:
+                blocks.append(Dropout(self.dropout))
             blocks.append(Linear(hidden_features[i], hidden_features[i+1]))
         blocks.append(ReLU())
+        if self.dropout != 0:
+            blocks.append(Dropout(self.dropout))
         blocks.append(Linear(hidden_features[-1], num_classes))
         # ========================
 
