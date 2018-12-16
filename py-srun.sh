@@ -44,7 +44,7 @@ srun \
 	-c $NUM_CORES \
 	--gres=gpu:$NUM_GPUS \
 	-p $QUEUE \
-	--pty bash
+	--pty
 <<EOF
 #!/bin/bash
 echo "*** SLURM INTERACTIVE JOB '$JOB_NAME' STARTING ***"
