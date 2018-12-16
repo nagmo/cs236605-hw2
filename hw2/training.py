@@ -73,7 +73,7 @@ class Trainer(abc.ABC):
             #   simple regularization technique that is highly recommended.
             # ====== YOUR CODE: ======
             train_res = self.train_epoch(dl_train, verbose=verbose)
-            train_loss += train_res.losses
+            train_loss += [float(x) for x in train_res.losses]
             train_acc.append(train_res.accuracy)
             test_res = self.test_epoch(dl_test, verbose=verbose)
 
@@ -89,7 +89,7 @@ class Trainer(abc.ABC):
                 if epochs_without_improvement == early_stopping:
                     break
 
-            test_loss += test_res.losses
+            test_loss += [float(x) for x in test_res.losses]
             test_acc.append(test_res.accuracy)
             # ========================
 
