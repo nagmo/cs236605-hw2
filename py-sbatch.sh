@@ -30,7 +30,7 @@ NUM_CORES=2
 NUM_GPUS=1
 QUEUE=236605
 JOB_NAME="test_job"
-MAIL_USER="example@example.com"
+MAIL_USER="nevoagmon@gmail.com"
 MAIL_TYPE=ALL # Valid values are NONE, BEGIN, END, FAIL, REQUEUE, ALL
 
 ###
