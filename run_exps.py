@@ -1,4 +1,4 @@
-from .hw2 import experiments
+from hw2 import experiments
 
 for K in [32, 64]:
     for L in [2, 4, 8, 16]:
