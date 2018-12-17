@@ -63,6 +63,7 @@ def run_experiment(run_name, out_dir='./results', seed=None,
     out_classes = 10
 
     model = model_cls(in_size, out_classes, filters, pool_every, hidden_dims)
+    print(model)
     loss_fn = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=0.9)
 
