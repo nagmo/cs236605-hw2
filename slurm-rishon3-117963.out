@@ -1,6 +1,0 @@
-cpu-bind=MASK - rishon3, task  0  0 [22170]: mask 0x100000001 set
-cpu-bind=MASK - rishon3, task  0  0 [22170]: mask 0x100000001 set
-*** SLURM BATCH JOB 'test_job' STARTING ***
-*** Activating environment cs236605-hw ***
-/home/nevoagmon/miniconda3/envs/cs236605-hw/bin/python: Relative module names not supported
-*** SLURM BATCH JOB 'test_job' DONE ***
