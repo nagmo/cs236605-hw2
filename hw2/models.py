@@ -129,6 +129,7 @@ class ConvClassifier(nn.Module):
             calc = lambda x: x // 2
             temp_features = (calc(temp_features[0]), calc(temp_features[1]))
         in_features = self.filters[-1] * temp_features[0] * temp_features[1]
+        print(in_features, self.hidden_dims[0])
         layers.append(nn.Linear(in_features, self.hidden_dims[0]))
         for hidden_dim in range(len(self.hidden_dims)-1):
             layers.append(nn.ReLU())
