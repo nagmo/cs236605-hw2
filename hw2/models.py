@@ -150,15 +150,47 @@ class ConvClassifier(nn.Module):
         return out
 
 
-# class YourCodeNet(ConvClassifier):
-#     def __init__(self, in_size, out_classes, filters, pool_every, hidden_dims):
-#         super().__init__(in_size, out_classes, filters, pool_every, hidden_dims)
+class YourCodeNet(ConvClassifier):
+    def __init__(self, in_size, out_classes, filters, pool_every, hidden_dims):
+        super().__init__(in_size, out_classes, filters, pool_every, hidden_dims)
 
     # TODO: Change whatever you want about the ConvClassifier to try to
     # improve it's results on CIFAR-10.
     # For example, add batchnorm, dropout, skip connections, change conv
     # filter sizes etc.
     # ====== YOUR CODE: ======
-    # raise NotImplementedError()
+    def _make_feature_extractor(self):
+        in_channels, in_h, in_w, = tuple(self.in_size)
+        layers = []
+        for pool in range(len(self.filters) // self.pool_every):
+            for conv_layer in range(self.pool_every):
+                if pool == 0 and conv_layer == 0:
+                    layers.append(nn.Conv2d(in_channels, self.filters[0], kernel_size=3, padding=1))
+                    layers.append(nn.BatchNorm2d(self.filters[0]))
+                else:
+                    idx = (pool * self.pool_every) + conv_layer - 1
+                    layers.append(nn.Conv2d(self.filters[idx], self.filters[idx + 1], kernel_size=3, padding=1))
+                    layers.append(nn.BatchNorm2d(self.filters[idx + 1]))
+                layers.append(nn.ReLU(inplace=True))
+            layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
+        seq = nn.Sequential(*layers)
+        return seq
+
+    def _make_classifier(self):
+        in_channels, in_h, in_w, = tuple(self.in_size)
+        layers = []
+        temp_features = (in_h, in_w)
+        for i in range(len(self.filters) // self.pool_every):
+            calc = lambda x: x // 2
+            temp_features = (calc(temp_features[0]), calc(temp_features[1]))
+        in_features = self.filters[-1] * temp_features[0] * temp_features[1]
+        layers.append(nn.Linear(in_features, self.hidden_dims[0]))
+        for hidden_dim in range(len(self.hidden_dims) - 1):
+            layers.append(nn.ReLU())
+            layers.append(nn.Linear(self.hidden_dims[hidden_dim], self.hidden_dims[hidden_dim + 1]))
+        layers.append(nn.ReLU())
+        layers.append(nn.Linear(self.hidden_dims[-1], self.out_classes))
+        seq = nn.Sequential(*layers)
+        return seq
     # ========================
 
