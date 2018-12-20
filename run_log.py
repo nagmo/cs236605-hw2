@@ -9,7 +9,6 @@ import hw2.training as training
 import hw2.blocks as blocks
 import hw2.models as models
 import hw2.answers as answers
-from torch.utils.data import DataLoader
 import hw2.optimizers as optimizers
 
 seed = 42
