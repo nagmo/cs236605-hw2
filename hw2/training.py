@@ -80,7 +80,8 @@ class Trainer(abc.ABC):
             if checkpoints is not None:
                 if best_acc is None:
                     best_acc = test_res.accuracy
-                elif best_acc > test_res.accuracy:
+                elif best_acc < test_res.accuracy:
+                    best_acc = test_res.accuracy
                     torch.save(self.model, checkpoints)
 
             if early_stopping is not None:
