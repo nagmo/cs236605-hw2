@@ -155,5 +155,5 @@ class RMSProp(Optimizer):
                 rms = torch.zeros_like(dp)
             dp += self.reg * p
             self.rms[rms_idx] = (rms_idx, self.decay * rms + (1 - self.decay) * (dp * dp))
-            p -= torch.rsqrt(self.rms[rms_idx][1] + self.eps).mul(1 / self.learn_rate) * dp
+            p -= (torch.rsqrt(self.rms[rms_idx][1] + self.eps)* self.learn_rate) * dp
             # ========================

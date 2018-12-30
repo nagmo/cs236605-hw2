@@ -31,7 +31,7 @@ import torch
 # print('out =', test_out)
 
 for K in [[64, 128, 256, 512]]:
-    for L in [1, 2, 3, 4]:
+    for L in [4]:
         try:
             experiments.run_experiment(f'exp2_L{L}_K64-128-256-512', layers_per_block=L, filters_per_layer=K, epochs=100, ycn=True)
         except:

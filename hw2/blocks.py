@@ -253,8 +253,11 @@ class Dropout(Block):
         # current mode (train/test).
         # ====== YOUR CODE: ======
         if self.training_mode:
-            self.bernoulli = torch.bernoulli(torch.full_like(x, self.p))
-            out = (x * self.bernoulli) / self.p
+            self.bernoulli = torch.bernoulli(torch.full_like(x[0, :], self.p)).repeat([x.shape[0], 1])
+            out = (x * self.bernoulli) #/ self.p
+#             self.bernoulli = torch.bernoulli(torch.full_like(x, self.p))
+#             self.bernoulli = self.bernoulli.repeat([x.shape[0], 1])
+#             out = self.bernoulli * x 
         else:
             out = x
         # ========================
@@ -265,7 +268,7 @@ class Dropout(Block):
         # TODO: Implement the dropout backward pass.
         # ====== YOUR CODE: ======
         if self.training_mode:
-            dx = dout * self.bernoulli / self.p
+            dx = dout * self.bernoulli #/ self.p
         else:
             dx = dout
         # ========================

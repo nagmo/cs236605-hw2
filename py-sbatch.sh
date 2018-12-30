@@ -58,7 +58,7 @@ source $CONDA_HOME/etc/profile.d/conda.sh
 conda activate $CONDA_ENV
 
 # Run python with the args to the script
-python $@
+ipython $@
 
 echo "*** SLURM BATCH JOB '$JOB_NAME' DONE ***"
 EOF
