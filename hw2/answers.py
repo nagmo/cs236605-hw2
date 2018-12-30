@@ -54,16 +54,10 @@ An equation: $e^{i\pi} -1 = 0$
 """
 
 part2_q2 = r"""
-**Your answer:**
-
-
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
-
+It is possible because there is no direct relation between the accuracy and the total loss.
+The accurecy is dependent only on the class with the best score while the toal loss is the mean of the loss function for each class.
+That means that we can have a situation where we find more classes that are correct (i.e. the best score is for the correct class) but for the classes the are not correct the values of the loss function increase.
+therefore we will get a higher accuracy and in addition higher total loss.
 """
 # ==============
 
