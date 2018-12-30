@@ -45,13 +45,9 @@ def part2_dropout_hp():
 part2_q1 = r"""
 **Your answer:**
 
-
-Write your answer using **markdown** and $\LaTeX$:
-```python
-# A code block
-a = 2
-```
-An equation: $e^{i\pi} -1 = 0$
+The results do not match what we excpact to see.
+We would expact to see better results using droupout in opposed to no dropout but from our results we can see that it is not the case.
+We think the reason is that with dropout the model trains slower since we randomaly shut down some of the neurons and therefore the training of them will be slower, the upside of this technic is that we get a model with redundancy and that should yield better results. we think that if we would test the output of the models after more epoches we would see this happening, but 30 epoches are not enough for this to happen.
 
 """
 
